@@ -29,7 +29,7 @@ static struct v4l2_file_operations msm_flash_v4l2_subdev_fops;
 static struct led_trigger *torch_trigger;
 
 static const struct of_device_id msm_flash_dt_match[] = {
-	{.compatible = "qcom,camera-flash", .data = NULL},
+	{.compatible = "qcom,camera-subflash", .data = NULL},
 	{}
 };
 
@@ -55,7 +55,7 @@ static struct msm_camera_i2c_fn_t msm_sensor_cci_func_tbl = {
 	.i2c_poll =  msm_camera_cci_i2c_poll,
 };
 
-static void msm_torch_brightness_set(struct led_classdev *led_cdev,
+static void msm_subtorch_brightness_set(struct led_classdev *led_cdev,
 				enum led_brightness value)
 {
 	if (!torch_trigger) {
@@ -68,18 +68,18 @@ static void msm_torch_brightness_set(struct led_classdev *led_cdev,
 
 static struct led_classdev msm_torch_led[MAX_LED_TRIGGERS] = {
 	{
-		.name		= "torch-light0",
-		.brightness_set	= msm_torch_brightness_set,
+		.name		= "torch-light1",
+		.brightness_set	= msm_subtorch_brightness_set,
 		.brightness	= LED_OFF,
 	},
 	{
 		.name		= "torch-light1",
-		.brightness_set	= msm_torch_brightness_set,
+		.brightness_set	= msm_subtorch_brightness_set,
 		.brightness	= LED_OFF,
 	},
 	{
 		.name		= "torch-light2",
-		.brightness_set	= msm_torch_brightness_set,
+		.brightness_set	= msm_subtorch_brightness_set,
 		.brightness	= LED_OFF,
 	},
 };
@@ -100,9 +100,9 @@ static int32_t msm_torch_create_classdev(struct platform_device *pdev,
 	for (i = 0; i < fctrl->torch_num_sources; i++) {
 		if (fctrl->torch_trigger[i]) {
 			torch_trigger = fctrl->torch_trigger[i];
-			CDBG("%s:%d msm_torch_brightness_set for torch %d",
+			CDBG("%s:%d msm_subtorch_brightness_set for torch %d",
 				__func__, __LINE__, i);
-			msm_torch_brightness_set(&msm_torch_led[i],
+			msm_subtorch_brightness_set(&msm_torch_led[i],
 				LED_OFF);
 
 			rc = led_classdev_register(&pdev->dev,
@@ -1343,7 +1343,7 @@ MODULE_DEVICE_TABLE(of, msm_flash_dt_match);
 static struct platform_driver msm_flash_platform_driver = {
 	.probe = msm_flash_platform_probe,
 	.driver = {
-		.name = "qcom,camera-flash",
+		.name = "qcom,camera-subflash",
 		.owner = THIS_MODULE,
 		.of_match_table = msm_flash_dt_match,
 	},
