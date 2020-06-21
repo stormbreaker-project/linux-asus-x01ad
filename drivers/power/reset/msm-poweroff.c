@@ -63,7 +63,9 @@ static void scm_disable_sdi(void);
  * There is no API from TZ to re-enable the registers.
  * So the SDI cannot be re-enabled when it already by-passed.
  */
-static int download_mode = 1;
+/* amt beg: disable download mode, modify this value from 1 to 0; */
+static int download_mode = 0;
+/* amt end: disable download mode, modify this value from 1 to 0; */
 #else
 static const int download_mode;
 #endif
