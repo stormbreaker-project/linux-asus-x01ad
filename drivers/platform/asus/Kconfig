@@ -1,0 +1,16 @@
+# Asus Configuration
+
+config MACH_ASUS
+     bool "Asus devices"
+     help
+       Support for Asus variants
+
+menu "Asus board selection"
+
+config MACH_ASUS_X01AD
+        bool "X01AD board"
+        select MACH_ASUS
+        help
+          Support for Asus Zenfone Max M2
+
+endmenu
