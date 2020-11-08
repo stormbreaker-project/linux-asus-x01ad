@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2015-2019, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -41,12 +41,6 @@
 				qcom,pon-type = <0>;
 				qcom,pull-up = <1>;
 				linux,code = <116>;
-			/* Huaqin add for ZQL1830-18 by lanshiming at 2018/7/19 start*/
-				qcom,support-reset = <1>;
-				qcom,s1-timer = <10256>;
-				qcom,s2-timer = <10>;
-				qcom,s2-type = <4>;
-			/* Huaqin add for ZQL1830-18 by lanshiming at 2018/7/19 end*/
 			};
 
 			qcom,pon_2 {
@@ -70,9 +64,6 @@
 		pm8953_coincell: qcom,coincell@2800 {
 			compatible = "qcom,qpnp-coincell";
 			reg = <0x2800 0x100>;
-//huaqin add by tangqingyong for zql1830-636 disable coincell charging start
-			qcom,charge-enable = <0>;
-//huaqin add by tangqingyong for zql1830-636 disable coincell charging end
 		};
 
 		pm8953_mpps: mpps {
@@ -227,9 +218,6 @@
 				qcom,scale-function = <2>;
 				qcom,hw-settle-time = <2>;
 				qcom,fast-avg-setup = <0>;
-//huaqin add by tangqingyong for ZQL1830-638 at 20180831 start
-				qcom,vadc-thermal-node;
-//huaqin add by tangqingyong for ZQL1830-638 at 20180831 end
 			};
 
 
@@ -242,9 +230,6 @@
 				qcom,scale-function = <4>;
 				qcom,hw-settle-time = <2>;
 				qcom,fast-avg-setup = <0>;
-//huaqin add by tangqingyong for ZQL1830-638 at 20180905 start
-				qcom,vadc-thermal-node;
-//huaqin add by tangqingyong for ZQL1830-638 at 20180905 end
 			};
 
 			chan@3c {
@@ -267,9 +252,7 @@
 				qcom,scale-function = <2>;
 				qcom,hw-settle-time = <2>;
 				qcom,fast-avg-setup = <0>;
-//huaqin add by tangqingyong for ZQL1830-638 at 20180905 start
-			//	qcom,vadc-thermal-node;
-//huaqin add by tangqingyong for ZQL1830-638 at 20180905 end
+				qcom,vadc-thermal-node;
 			};
 		};
 
@@ -301,8 +284,8 @@
 				qcom,fast-avg-setup = <0>;
 				qcom,thermal-node;
 			};
-//huaqin add by tangqingyong for ZQL1830-638 at 20180905 start
-/*			chan@32 {
+
+			chan@32 {
 				label = "xo_therm";
 				reg = <0x32>;
 				qcom,pre-div-channel-scaling = <0>;
@@ -313,20 +296,7 @@
 				qcom,btm-channel-number = <0x68>;
 				qcom,fast-avg-setup = <0>;
 				qcom,thermal-node;
-			};*/
-			chan@13 {
-				label = "case_therm";
-				reg = <0x13>;
-				qcom,decimation = <0>;
-				qcom,pre-div-channel-scaling = <0>;
-				qcom,calibration-type = "ratiometric";
-				qcom,scale-function = <2>;
-				qcom,hw-settle-time = <2>;
-				qcom,btm-channel-number = <0x68>;
-				qcom,fast-avg-setup = <0>;
-				qcom,thermal-node;
 			};
-//huaqin add by tangqingyong for ZQL1830-638 at 20180905 end
 		};
 
 		pm8953_rtc: qcom,pm8953_rtc {
@@ -388,10 +358,9 @@
 	xo-therm-adc {
 		polling-delay-passive = <0>;
 		polling-delay = <0>;
-//huaqin add by tangqingyong for ZQL1830-638 at 20180905 start
-		thermal-sensors = <&pm8953_vadc 0x32>;
-//huaqin add by tangqingyong for ZQL1830-638 at 20180905 end
+		thermal-sensors = <&pm8953_adc_tm 0x32>;
 		thermal-governor = "user_space";
+		wake-capable-sensor;
 
 		trips {
 			active-config0 {
@@ -407,6 +376,7 @@
 		polling-delay = <0>;
 		thermal-sensors = <&pm8953_vadc 0x3c>;
 		thermal-governor = "user_space";
+		wake-capable-sensor;
 
 		trips {
 			active-config0 {
@@ -421,6 +391,7 @@
 		polling-delay-passive = <0>;
 		polling-delay = <0>;
 		thermal-sensors = <&pm8953_tz>;
+		wake-capable-sensor;
 
 		trips {
 			pm8953_trip0: pm8953-trip0 {
