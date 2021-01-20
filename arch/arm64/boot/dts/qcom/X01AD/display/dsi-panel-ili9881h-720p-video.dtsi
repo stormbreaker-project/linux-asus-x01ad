@@ -383,5 +383,8 @@
 		qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 		qcom,mdss-dsi-reset-sequence = <1 5>, <0 2>, <1 5>;
 		qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 	};
 };
