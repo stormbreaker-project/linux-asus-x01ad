@@ -466,11 +466,14 @@ int power_supply_uevent(struct device *dev, struct kobj_uevent_env *env)
 		if (line)
 			*line = 0;
 
-		attrname = kstruprdup(attr->attr.name, GFP_KERNEL);
-		if (!attrname) {
-			ret = -ENOMEM;
-			goto out;
-		}
+	      if (attr->attr.name == NULL)
+              continue;
+
+               attrname = kstruprdup(attr->attr.name, GFP_KERNEL);
+                if (!attrname) {
+                 ret = -ENOMEM;
+                  goto out;
+          }
 
 		ret = add_uevent_var(env, "POWER_SUPPLY_%s=%s", attrname, prop_buf);
 		kfree(attrname);
