@@ -15,3 +15,16 @@
 	qcom,msm-mbhc-hphl-swh = <1>;
 	qcom,msm-mbhc-gnd-swh = <1>;
 };
+
+&soc {
+	qcom,msm-dai-q6 {
+
+		qcom,msm-dai-q6-proxy-rx {
+			status = "disabled";
+			};
+
+		qcom,msm-dai-q6-proxy-tx {
+			status = "disabled";
+			};
+		};
+};
