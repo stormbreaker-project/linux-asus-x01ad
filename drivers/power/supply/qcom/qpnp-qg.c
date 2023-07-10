@@ -41,7 +41,7 @@
 #include "qg-defs.h"
 //cmadd
 #include <linux/asus_bathealth.h>
-#include <linux/wakelock.h>
+#include <x01ad/wakelock.h>
 #include <linux/fs.h>
 #include <linux/proc_fs.h>
 //cmadd
