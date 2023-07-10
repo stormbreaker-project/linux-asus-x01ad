@@ -77,9 +77,7 @@ struct msm_pinctrl {
 	phys_addr_t spi_cfg_regs;
 	phys_addr_t spi_cfg_end;
 };
-/* Huaqin modify for ZB632KL by qiaoxiaokun at 2018/10/30 start */
-int g_resume_from_fp = 0;
-/* Huaqin modify for ZB632KL by qiaoxiaokun at 2018/10/30 end */
+
 static struct msm_pinctrl *msm_pinctrl_data;
 
 static int msm_get_groups_count(struct pinctrl_dev *pctldev)
@@ -1691,7 +1689,7 @@ static int msm_pinctrl_suspend(void)
 
 static void msm_pinctrl_resume(void)
 {
-	int i, irq;
+	int g_resume_from_fp = 0, i, irq;
 	u32 val;
 	unsigned long flags;
 	struct irq_desc *desc;
