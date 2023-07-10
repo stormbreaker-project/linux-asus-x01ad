@@ -55,7 +55,7 @@
 #include "mdp3_ctrl.h"
 #include "mdss_sync.h"
 
-#include <linux/wakelock.h>
+#include <x01ad/wakelock.h>
 #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
 #define MDSS_FB_NUM 3
 #else
@@ -87,7 +87,7 @@ extern bool lcd_suspend_flag;
 /* Huaqin modify for ZB632KL by qiaoxiaokun at 2018/10/30 start */
 static void asus_lcd_early_unblank_func(struct work_struct *);
 static struct workqueue_struct *asus_lcd_early_unblank_wq;
-extern int g_resume_from_fp;
+int g_resume_from_fp;
 /* Huaqin modify for ZB632KL by qiaoxiaokun at 2018/10/30 end */
 static struct fb_info *fbi_list[MAX_FBI_LIST];
 static int fbi_list_index;
