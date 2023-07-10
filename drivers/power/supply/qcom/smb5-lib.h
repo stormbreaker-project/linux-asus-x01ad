@@ -31,7 +31,6 @@
 #include "fg-core.h"
 #include <linux/gpio.h>
 #include <linux/alarmtimer.h>
-#include <x01ad/wakelock.h>
 #include <linux/unistd.h>
 #include <linux/fcntl.h>
 #include <linux/slab.h>

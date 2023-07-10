@@ -228,7 +228,7 @@ struct gpio_control *global_gpio;
 //huaqin added for ZQL1830-357 by tangqingyong adapter_id recognize at 20180808 end
 //huaqin add by tangqingyong at 20180813 for ZQL1830-364 asus_monitor start
 struct timespec last_jeita_time;
-struct wake_lock asus_chg_lock;
+struct wakeup_source asus_chg_lock;
 extern void smblib_asus_monitor_start(struct smb_charger *chg, int time);
 extern bool asus_get_prop_usb_present(struct smb_charger *chg);
 extern void asus_smblib_stay_awake(struct smb_charger *chg);
@@ -3161,7 +3161,7 @@ static int smb5_probe(struct platform_device *pdev)
 	chg->otg_present = false;
 	mutex_init(&chg->vadc_lock);
 //huaqin add by tangqingyong at 20180813 for ZQL1830-364 asus_monitor start
-	wake_lock_init(&asus_chg_lock, WAKE_LOCK_SUSPEND, "asus_chg_lock");
+	wakeup_source_init(&asus_chg_lock, "asus_chg_lock");
 //huaqin add by tangqingyong at 20180812 for ZQL1830-364 asus_monitor end
 //huaqin add by tangqingyong at 20180730 for ZQL1830-199 start
 	smbchg_dev = chg;
