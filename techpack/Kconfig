@@ -1,0 +1,5 @@
+menu "Tech packages"
+
+source "techpack/x01ad/Kconfig"
+
+endmenu
