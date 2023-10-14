@@ -78,7 +78,7 @@ int asus_get_prop_usb_present(struct smb_charger *chg)
 }
 //huaqin added for ZQL1830-357 by tangqingyong adapter_id recognize at 20180808 end
 //huaqin add by tangqingyong at 20180813 for ZQL1830-364 asus_monitor start
-extern struct wake_lock asus_chg_lock;
+extern struct wakeup_source asus_chg_lock;
 extern struct timespec last_jeita_time;
 static struct alarm bat_alarm;
 //Huaqin added by tangqingyong for ZQL1830-385 at 20180818 for USB alert start
@@ -113,12 +113,12 @@ static void smblib_uusb_removal(struct smb_charger *chg);
 void asus_smblib_stay_awake(struct smb_charger *chg)
 {
 	printk("%s: ASUS set smblib_stay_awake\n", __func__);
-	wake_lock(&asus_chg_lock);
+	__pm_stay_awake(&asus_chg_lock);
 }
 void asus_smblib_relax(struct smb_charger *chg)
 {
 	printk("%s: ASUS set smblib_relax\n", __func__);
-	wake_unlock(&asus_chg_lock);
+	__pm_relax(&asus_chg_lock);
 }
 static DEFINE_SPINLOCK(bat_alarm_slock);
 static enum alarmtimer_restart batAlarm_handler(struct alarm *alarm, ktime_t now)

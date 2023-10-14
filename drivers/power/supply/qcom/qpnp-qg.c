@@ -41,7 +41,6 @@
 #include "qg-defs.h"
 //cmadd
 #include <linux/asus_bathealth.h>
-#include <linux/wakelock.h>
 #include <linux/fs.h>
 #include <linux/proc_fs.h>
 //cmadd
@@ -80,7 +79,7 @@ struct qpnp_qg *g_fgChip = NULL;
 struct delayed_work battery_health_work;
 struct delayed_work battery_metadata_work;
 struct delayed_work battery_safety_work;
-struct wake_lock bat_health_lock;
+struct wakeup_source bat_health_lock;
 
 static void init_battery_safety(struct qpnp_qg *fg);
 
@@ -4874,7 +4873,7 @@ static void battery_health_data_reset(void)
 	g_bat_health_data.end_time = 0;
 	g_bathealth_trigger = false;
 	g_last_bathealth_trigger = false;
-	wake_unlock(&bat_health_lock);
+	__pm_relax(&bat_health_lock);
 }
 
 extern int batt_health_csc_backup(void);
@@ -5026,7 +5025,7 @@ static void update_battery_health(struct qpnp_qg *chip){
 	//bat_capacity = get_prop_capacity(chip); 
 
 	if(bat_capacity == g_health_upgrade_start_level && g_bat_health_data.start_time == 0){
-		wake_lock(&bat_health_lock);
+		__pm_stay_awake(&bat_health_lock);
 		g_bathealth_trigger = true;
 		g_bat_health_data.start_time = asus_qpnp_rtc_read_time();
 	}
@@ -5266,7 +5265,7 @@ static int qpnp_qg_probe(struct platform_device *pdev)
 	//cmadd
 		g_fgChip = chip;
 		//ASUS_BSP battery safety upgrade +++
-		wake_lock_init(&bat_health_lock, WAKE_LOCK_SUSPEND, "battery-health");
+		wakeup_source_init(&bat_health_lock, "battery-health");
 		init_battery_safety(chip);
 		create_batt_cycle_count_proc_file();
 		register_reboot_notifier(&reboot_blk);
