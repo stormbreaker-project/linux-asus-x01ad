@@ -1,1 +1,2 @@
 source "drivers/misc/fingerprint/cdfinger_fp/Kconfig"
+source "drivers/misc/fingerprint/focal_fp/Kconfig"

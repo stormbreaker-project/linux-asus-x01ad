@@ -1,0 +1,6 @@
+config FOCAL_FP
+	bool "FOCAL_FP for Qualcomm package"
+	help
+	  Say Y here if you have a focal fingerprint.
+
+	  If unsure, say N.
