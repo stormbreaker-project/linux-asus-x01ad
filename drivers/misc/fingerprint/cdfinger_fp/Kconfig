@@ -1,0 +1,6 @@
+config CDFINGER_FP
+	bool "CDFINGER_FP for Qualcomm package"
+	help
+	  Say Y here if you have a cdfinger fingerprint.
+
+	  If unsure, say N.
