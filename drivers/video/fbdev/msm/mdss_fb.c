@@ -55,7 +55,6 @@
 #include "mdp3_ctrl.h"
 #include "mdss_sync.h"
 
-#include <linux/wakelock.h>
 #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
 #define MDSS_FB_NUM 3
 #else
@@ -101,7 +100,7 @@ static u32 mdss_fb_pseudo_palette[16] = {
 
 static struct msm_mdp_interface *mdp_instance;
 /*Huaqin modify by zhanghao for No repetition lcd suspend start*/
-static struct wake_lock early_unblank_wakelock;
+static struct wakeup_source early_unblank_wakelock;
 /*Huaqin modify by zhanghao for No repetition lcd suspend end*/
 static int mdss_fb_register(struct msm_fb_data_type *mfd);
 static int mdss_fb_open(struct fb_info *info, int user);
@@ -1655,7 +1654,7 @@ static void asus_lcd_early_unblank_func(struct work_struct *work)
 
 	printk("[Display] Early unblank func +++ \n");
 /*Huaqin modify by zhanghao for No repetition lcd suspend start*/
-	wake_lock_timeout(&early_unblank_wakelock,msecs_to_jiffies(300));
+	__pm_wakeup_event(&early_unblank_wakelock,msecs_to_jiffies(300));
 /*Huaqin modify by zhanghao for No repetition lcd suspend end*/
 	/*Huaqin modify by zhanghao for wakelock power consumption start*/
 	fb_blank(fbi, FB_BLANK_UNBLANK);
@@ -5248,7 +5247,7 @@ int __init mdss_fb_init(void)
 		return rc;
 	asus_lcd_early_unblank_wq = create_singlethread_workqueue("display_early_wq");
 /*Huaqin modify by zhanghao for No repetition lcd suspend start*/
-	wake_lock_init(&early_unblank_wakelock, WAKE_LOCK_SUSPEND, "early_unblank-update");
+	wakeup_source_init(&early_unblank_wakelock, "early_unblank-update");
 /*Huaqin modify by zhanghao for No repetition lcd suspend end*/
 	return 0;
 }
