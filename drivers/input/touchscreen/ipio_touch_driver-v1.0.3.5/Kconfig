@@ -3,7 +3,7 @@
 #
 config TOUCHSCREEN_ILI9881H
 	bool "ILI9881H"
-	default y
+	default n
 	help
 	  Say Y here if you have a ILI9881H touchscreen connected
 	  to your system.
