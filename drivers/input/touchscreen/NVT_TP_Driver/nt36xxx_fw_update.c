@@ -18,12 +18,11 @@
 
 #include <linux/delay.h>
 #include <linux/firmware.h>
-#include <linux/wakelock.h>
 
 #include "nt36xxx.h"
 /* Huaqin add for nvt fw update fail by liufurong at 20181109 start */
 extern int tp_fw_update_flag;
-struct wake_lock tp_update_wakelock;
+struct wakeup_source tp_update_wakelock;
 /* Huaqin add for nvt fw update fail by liufurong at 20181109 end */
 
 #if BOOT_UPDATE_FIRMWARE
@@ -996,11 +995,11 @@ void Boot_Update_Firmware(struct work_struct *work)
 		return;
 	}
 	/* Huaqin add for nvt fw update fail by liufurong at 20181109 start */
-	wake_lock_init(&tp_update_wakelock, WAKE_LOCK_SUSPEND, "tp-update");
+	wakeup_source_init(&tp_update_wakelock, "tp-update");
 	/* Huaqin add for nvt fw update fail by liufurong at 20181109 end */
 	mutex_lock(&ts->lock);
 	/* Huaqin add for nvt fw update fail by liufurong at 20181109 start */
-	wake_lock(&tp_update_wakelock);
+	__pm_stay_awake(&tp_update_wakelock);
 	tp_fw_update_flag = 1;
 	/* Huaqin add for nvt fw update fail by liufurong at 20181109 end */
 #if NVT_TOUCH_ESD_PROTECT
@@ -1031,7 +1030,7 @@ void Boot_Update_Firmware(struct work_struct *work)
 	}
 	/* Huaqin add for nvt fw update fail by liufurong at 20181109 start */
 	tp_fw_update_flag = 0;
-	wake_unlock(&tp_update_wakelock);
+	__pm_relax(&tp_update_wakelock);
 	/* Huaqin add for nvt fw update fail by liufurong at 20181109 end */
 	mutex_unlock(&ts->lock);
 
