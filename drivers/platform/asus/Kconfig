@@ -1,0 +1,7 @@
+# Asus X00P configuration options
+
+config MACH_ASUS_X01AD
+	bool "Asus X01AD"
+	depends on ARCH_SDM632
+	help
+	  Support for Asus X01AD
